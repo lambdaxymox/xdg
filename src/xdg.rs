@@ -2,6 +2,7 @@ use std::env;
 use std::ffi::OsStr;
 
 
+#[derive(Clone, Debug)]
 pub struct Config {
     pub data_home: Option<String>,
     pub config_home: Option<String>,
@@ -32,7 +33,7 @@ fn get_env<K: AsRef<OsStr>>(key: K) -> Option<String> {
     env::var(key).ok()
 }
 
-pub fn load_config() -> Config {
+pub fn get_config() -> Config {
     let xdg_data_home = get_env("XDG_DATA_HOME");
     let xdg_config_home = get_env("XDG_CONFIG_HOME");
     let xdg_data_dirs = get_env("XDG_DATA_DIRS");
