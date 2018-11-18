@@ -58,6 +58,19 @@ impl fmt::Display for Config {
     }
 }
 
+pub fn default_config() -> Config {
+    let home = env::var("HOME").unwrap();
+
+    Config::new(
+        Value::Occupied(format!("{}/{}", home, ".local/share")),
+        Value::Occupied(format!("{}/{}", home, ".config")),
+        Value::Occupied(format!("{}", "/usr/local/share/:/usr/share/")),
+        Value::Occupied(format!("{}", "/etc/xdg")),
+        Value::Occupied(format!("{}/{}", home, ".cache")),
+        Value::NotPresent,
+    )
+}
+
 fn get_env<K: AsRef<OsStr>>(key: K) -> Value {    
     let value = env::var(key);
     match value {

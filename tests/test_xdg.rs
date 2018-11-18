@@ -50,26 +50,12 @@ fn reset_xdg_config(old_config: &xdg::Config) {
 }
 
 
-fn default_config() -> xdg::Config {
-    let home = env::var("HOME").unwrap();
-
-    xdg::Config::new(
-        xdg::Value::Occupied(format!("{}/{}", home, ".local/share")),
-        xdg::Value::Occupied(format!("{}/{}", home, ".config")),
-        xdg::Value::Occupied(format!("{}", "/usr/local/share/:/usr/share/")),
-        xdg::Value::Occupied(format!("{}", "/etc/xdg")),
-        xdg::Value::Occupied(format!("{}/{}", home, ".cache")),
-        xdg::Value::NotPresent,
-    )
-}
-
-#[ignore]
 #[test]
 fn test_get_config_or_default_should_generate_default_values_if_blank() {
     let old_config = xdg::get_config();
     let new_config = clear_xdg_config();
     let result = xdg::get_config_or_default();
-    let expected = default_config();
+    let expected = xdg::default_config();
     reset_xdg_config(&old_config);
 
     assert_eq!(
@@ -78,13 +64,12 @@ fn test_get_config_or_default_should_generate_default_values_if_blank() {
     );
 }
 
-#[ignore]
 #[test]
 fn test_get_config_or_default_should_fill_in_missing_keys() {
     let old_config = xdg::get_config();
     let new_config = empty_xdg_config();
     let result = xdg::get_config_or_default();
-    let expected = default_config();
+    let expected = xdg::default_config();
     reset_xdg_config(&old_config);
 
     assert_eq!(
