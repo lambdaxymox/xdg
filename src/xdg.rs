@@ -5,12 +5,12 @@ use std::fmt;
 
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct Config {
-    pub data_home: Option<String>,
-    pub config_home: Option<String>,
-    pub data_dirs: Option<String>,
-    pub config_dirs: Option<String>,
-    pub cache_home: Option<String>,
-    pub runtime_dir: Option<String>,
+    pub xdg_data_home: Option<String>,
+    pub xdg_config_home: Option<String>,
+    pub xdg_data_dirs: Option<String>,
+    pub xdg_config_dirs: Option<String>,
+    pub xdg_cache_home: Option<String>,
+    pub xdg_runtime_dir: Option<String>,
 }
 
 impl Config {
@@ -20,12 +20,12 @@ impl Config {
         xdg_cache_home: Option<String>, xdg_runtime_dir: Option<String>) -> Config {
         
         Config {
-            data_home: xdg_data_home,
-            config_home: xdg_config_home,
-            data_dirs: xdg_data_dirs,
-            config_dirs: xdg_config_dirs,
-            cache_home: xdg_cache_home,
-            runtime_dir: xdg_runtime_dir,
+            xdg_data_home: xdg_data_home,
+            xdg_config_home: xdg_config_home,
+            xdg_data_dirs: xdg_data_dirs,
+            xdg_config_dirs: xdg_config_dirs,
+            xdg_cache_home: xdg_cache_home,
+            xdg_runtime_dir: xdg_runtime_dir,
         }
     }
 }
@@ -33,22 +33,22 @@ impl Config {
 impl fmt::Display for Config {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         writeln!(f, "XDG_DATA_HOME={}", 
-            self.data_home.as_ref().unwrap_or(&"".to_string())
+            self.xdg_data_home.as_ref().unwrap_or(&"".to_string())
         ).unwrap();
         writeln!(f, "XDG_CONFIG_HOME={}", 
-            self.config_home.as_ref().unwrap_or(&"".to_string())
+            self.xdg_config_home.as_ref().unwrap_or(&"".to_string())
         ).unwrap();
         writeln!(f, "XDG_DATA_DIRS={}",
-            self.data_dirs.as_ref().unwrap_or(&"".to_string())
+            self.xdg_data_dirs.as_ref().unwrap_or(&"".to_string())
         ).unwrap();
         writeln!(f, "XDG_CONFIG_DIRS={}", 
-            self.config_dirs.as_ref().unwrap_or(&"".to_string())
+            self.xdg_config_dirs.as_ref().unwrap_or(&"".to_string())
         ).unwrap();
         writeln!(f, "XDG_CACHE_HOME={}",
-            self.cache_home.as_ref().unwrap_or(&"".to_string())
+            self.xdg_cache_home.as_ref().unwrap_or(&"".to_string())
         ).unwrap();
         writeln!(f, "XDG_RUNTIME_DIR={}",
-            self.runtime_dir.as_ref().unwrap_or(&"".to_string())
+            self.xdg_runtime_dir.as_ref().unwrap_or(&"".to_string())
         )
     }
 }
