@@ -21,6 +21,10 @@ fn empty_xdg_config() {
     env::remove_var("XDG_RUNTIME_DIR");
 }
 
+fn no_xdg_runtime_dir_config() {
+    env::remove_var("XDG_RUNTIME_DIR");
+}
+
 fn default_config() -> xdg::Config {
     let home = env::var("HOME").unwrap();
 
@@ -48,6 +52,16 @@ fn test_get_config_or_default_should_fill_in_missing_keys() {
     empty_xdg_config();
     let result = xdg::get_config_or_default();
     let expected = default_config();
+
+    assert_eq!(result, expected);
+}
+
+#[test]
+fn test_get_config_or_default_should_not_generate_missing_xdg_runtime_dir() {
+    no_xdg_runtime_dir_config();
+    let config = xdg::get_config_or_default();
+    let result = config.xdg_runtime_dir;
+    let expected = None;
 
     assert_eq!(result, expected);
 }
