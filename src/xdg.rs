@@ -1,5 +1,6 @@
 use std::env;
 use std::ffi::OsStr;
+use std::fmt;
 
 
 #[derive(Clone, Debug)]
@@ -26,6 +27,29 @@ impl Config {
             cache_home: xdg_cache_home,
             runtime_dir: xdg_runtime_dir,
         }
+    }
+}
+
+impl fmt::Display for Config {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        writeln!(f, "XDG_DATA_HOME={}", 
+            self.data_home.as_ref().unwrap_or(&"".to_string())
+        ).unwrap();
+        writeln!(f, "XDG_CONFIG_HOME={}", 
+            self.config_home.as_ref().unwrap_or(&"".to_string())
+        ).unwrap();
+        writeln!(f, "XDG_DATA_DIRS={}",
+            self.data_dirs.as_ref().unwrap_or(&"".to_string())
+        ).unwrap();
+        writeln!(f, "XDG_CONFIG_DIRS={}", 
+            self.config_dirs.as_ref().unwrap_or(&"".to_string())
+        ).unwrap();
+        writeln!(f, "XDG_CACHE_HOME={}",
+            self.cache_home.as_ref().unwrap_or(&"".to_string())
+        ).unwrap();
+        writeln!(f, "XDG_RUNTIME_DIR={}",
+            self.runtime_dir.as_ref().unwrap_or(&"".to_string())
+        )
     }
 }
 
