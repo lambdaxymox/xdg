@@ -12,6 +12,15 @@ fn clear_xdg_config() {
     env::set_var("XDG_RUNTIME_DIR", "");
 }
 
+fn empty_xdg_config() {
+    env::remove_var("XDG_DATA_HOME");
+    env::remove_var("XDG_CONFIG_HOME");
+    env::remove_var("XDG_DATA_DIRS");
+    env::remove_var("XDG_CONFIG_DIRS");
+    env::remove_var("XDG_CACHE_HOME");
+    env::remove_var("XDG_RUNTIME_DIR");
+}
+
 fn default_config() -> xdg::Config {
     let home = env::var("HOME").unwrap();
 
@@ -26,10 +35,19 @@ fn default_config() -> xdg::Config {
 }
 
 #[test]
-fn test_get_config_or_default_should_generate_missing_values() {
+fn test_get_config_or_default_should_generate_default_values_if_blank() {
     clear_xdg_config();
     let result = xdg::get_config_or_default();
     let expected = default_config();
     
+    assert_eq!(result, expected);
+}
+
+#[test]
+fn test_get_config_or_default_should_fill_in_missing_keys() {
+    empty_xdg_config();
+    let result = xdg::get_config_or_default();
+    let expected = default_config();
+
     assert_eq!(result, expected);
 }
