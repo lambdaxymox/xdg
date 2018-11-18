@@ -3,7 +3,7 @@ use std::ffi::OsStr;
 use std::fmt;
 
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, PartialEq, Eq)]
 pub struct Config {
     pub data_home: Option<String>,
     pub config_home: Option<String>,
