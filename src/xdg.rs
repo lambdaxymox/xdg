@@ -72,7 +72,13 @@ pub fn get_config() -> Config {
 }
 
 fn get_env_or_default<K: AsRef<OsStr>>(key: K, default: &str) -> String {
-    env::var(key).unwrap_or(default.into())
+    let var = match env::var(key) {
+        Ok(ref st) if st == "" => default.into(),
+        Err(_) => default.into(),
+        Ok(st) => st,
+    };
+
+    var
 }
 
 pub fn get_config_or_default() -> Config {
