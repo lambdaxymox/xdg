@@ -3,10 +3,14 @@ use std::ffi::OsStr;
 use std::fmt;
 
 
+/// The possible values of a XDG environment variable.
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub enum Value {
+    /// Environment variable is not set.
     NotPresent,
+    /// Environment variable is blank.
     Empty,
+    /// Environment variable is set to a non-blank value.
     Occupied(String),
 }
 
@@ -20,6 +24,8 @@ impl fmt::Display for Value {
     }
 }
 
+/// The XDG Base Directory configuration. This contains all the information
+/// needed to install an XDG complying software application.
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct Config {
     pub xdg_data_home: Value,
@@ -31,6 +37,7 @@ pub struct Config {
 }
 
 impl Config {
+    /// Construct a new set of environment variables.
     pub fn new(
         xdg_data_home: Value, xdg_config_home: Value, 
         xdg_data_dirs: Value, xdg_config_dirs: Value, 
@@ -58,6 +65,16 @@ impl fmt::Display for Config {
     }
 }
 
+/// An XDG Base Directory Specification configuration using only the default values
+/// from the specification if no XDG environment variables are set.
+/// ```ignore
+/// XDG_DATA_HOME=$HOME/.local/share
+/// XDG_CONFIG_HOME=$HOME/.config
+/// XDG_DATA_DIRS=/usr/local/share/:/usr/share/
+/// XDG_CONFIG_DIRS=/etc/xdg
+/// XDG_CACHE_HOME=$HOME/.cache
+/// XDG_RUNTIME_DIR=<No Default Given. This Is System Dependent>
+/// ```
 pub fn default_config() -> Config {
     let home = env::var("HOME").unwrap();
 
@@ -80,6 +97,7 @@ fn get_env<K: AsRef<OsStr>>(key: K) -> Value {
     }
 }
 
+/// Get the XDG environment variables as they are set in the current running process.
 pub fn get_config() -> Config {
     let xdg_data_home = get_env("XDG_DATA_HOME");
     let xdg_config_home = get_env("XDG_CONFIG_HOME");
@@ -104,6 +122,17 @@ fn get_env_or_default<K: AsRef<OsStr>>(key: K, default: Value) -> Value {
     var
 }
 
+/// Get the XDG environment variables needed for installing a piece of software,
+/// or for the software to find  its data and configuration files on the system.
+/// The default values are
+/// ```ignore
+/// XDG_DATA_HOME=\$HOME/.local/share
+/// XDG_CONFIG_HOME=\$HOME/.config
+/// XDG_DATA_DIRS=/usr/local/share/:/usr/share/
+/// XDG_CONFIG_DIRS=/etc/xdg
+/// XDG_CACHE_HOME=\$HOME/.cache
+/// XDG_RUNTIME_DIR=<No Default Given. This Is System Dependent>
+/// ```
 pub fn get_config_with_defaults() -> Config {
     let home = match get_env("HOME") {
         Value::Occupied(st) => st,
