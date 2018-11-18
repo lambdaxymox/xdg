@@ -17,7 +17,7 @@ xdg = "0.2"
 ```
 
 ## Dependencies
-This library requires a copy of `Rust 2018 Edition (>= 1.30)` to use. It depends on no other libraries.
+This library requires `Rust 2018 Edition (>= 1.30)` to compile. It depends on no other libraries.
 
 ## Compatibility
 This library is meant to support any piece of software design to comply with the 
