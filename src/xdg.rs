@@ -54,7 +54,10 @@ impl fmt::Display for Config {
 }
 
 fn get_env<K: AsRef<OsStr>>(key: K) -> Option<String> {    
-    env::var(key).ok()
+    match env::var(key) {
+        Ok(ref st) if st != "" => Some(st.clone()),
+        _ => None,
+    }
 }
 
 pub fn get_config() -> Config {
