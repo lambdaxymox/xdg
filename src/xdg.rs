@@ -107,10 +107,8 @@ pub fn get_config_or_default() -> Config {
     let xdg_cache_home = Some(
         get_env_or_default("XDG_CACHE_HOME", &xdg_cache_home_default)
     );
-    let xdg_runtime_dir_default = format!("{}", "");
-    let xdg_runtime_dir = Some(
-        get_env_or_default("XDG_RUNTIME_DIR", &xdg_runtime_dir_default)
-    );
+
+    let xdg_runtime_dir = get_env("XDG_RUNTIME_DIR");
 
     Config::new(
         xdg_data_home, xdg_config_home, xdg_data_dirs,

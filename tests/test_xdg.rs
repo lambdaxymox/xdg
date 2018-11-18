@@ -30,7 +30,7 @@ fn default_config() -> xdg::Config {
         Some(format!("{}", "/usr/local/share/:/usr/share/")),
         Some(format!("{}", "/etc/xdg")),
         Some(format!("{}/{}", home, ".cache")),
-        Some(format!("{}", ""))
+        None
     )
 }
 
