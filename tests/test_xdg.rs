@@ -16,13 +16,17 @@ fn clear_xdg_config() -> xdg::Config {
     old_config
 }
 
-fn empty_xdg_config() {
+fn empty_xdg_config() -> xdg::Config {
+    let old_config = xdg::get_config();
+
     env::remove_var("XDG_DATA_HOME");
     env::remove_var("XDG_CONFIG_HOME");
     env::remove_var("XDG_DATA_DIRS");
     env::remove_var("XDG_CONFIG_DIRS");
     env::remove_var("XDG_CACHE_HOME");
     env::remove_var("XDG_RUNTIME_DIR");
+
+    old_config
 }
 
 fn no_xdg_runtime_dir_config() {
@@ -67,15 +71,16 @@ fn test_get_config_or_default_should_generate_default_values_if_blank() {
     let result = xdg::get_config_or_default();
     let expected = default_config();
     reset_xdg_config(&old_config);
-    
+
     assert_eq!(result, expected);
 }
 
 #[test]
 fn test_get_config_or_default_should_fill_in_missing_keys() {
-    empty_xdg_config();
+    let old_config = empty_xdg_config();
     let result = xdg::get_config_or_default();
     let expected = default_config();
+    reset_xdg_config(&old_config);
 
     assert_eq!(result, expected);
 }
