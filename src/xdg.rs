@@ -70,3 +70,41 @@ pub fn get_config() -> Config {
         xdg_config_dirs, xdg_cache_home, xdg_runtime_dir
     )
 }
+
+fn get_env_or_default<K: AsRef<OsStr>>(key: K, default: &str) -> String {
+    env::var(key).unwrap_or(default.into())
+}
+
+pub fn get_config_or_default() -> Config {
+    let home = get_env("HOME").unwrap();
+    
+    let xdg_data_home_default = format!("{}/{}", home, ".local/share");
+    let xdg_data_home = Some(
+        get_env_or_default("XDG_DATA_HOME", &xdg_data_home_default)
+    );
+    let xdg_config_home_default = format!("{}/{}", home, ".config");
+    let xdg_config_home = Some(
+        get_env_or_default("XDG_CONFIG_HOME", &xdg_config_home_default)
+    );
+    let xdg_data_dirs_default = format!("{}", "/usr/local/share/:/usr/share/");
+    let xdg_data_dirs = Some(
+        get_env_or_default("XDG_DATA_DIRS", &xdg_data_dirs_default)
+    );
+    let xdg_config_dirs_default = format!("{}", "/etc/xdg");
+    let xdg_config_dirs = Some(
+        get_env_or_default("XDG_CONFIG_DIRS", &xdg_config_dirs_default)
+    );
+    let xdg_cache_home_default = format!("{}/{}", home, ".cache");
+    let xdg_cache_home = Some(
+        get_env_or_default("XDG_CACHE_HOME", &xdg_cache_home_default)
+    );
+    let xdg_runtime_dir_default = format!("{}", "");
+    let xdg_runtime_dir = Some(
+        get_env_or_default("XDG_RUNTIME_DIR", &xdg_runtime_dir_default)
+    );
+
+    Config::new(
+        xdg_data_home, xdg_config_home, xdg_data_dirs,
+        xdg_config_dirs, xdg_cache_home, xdg_runtime_dir
+    )
+}
