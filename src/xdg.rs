@@ -104,7 +104,7 @@ fn get_env_or_default<K: AsRef<OsStr>>(key: K, default: Value) -> Value {
     var
 }
 
-pub fn get_config_or_default() -> Config {
+pub fn get_config_with_defaults() -> Config {
     let home = match get_env("HOME") {
         Value::Occupied(st) => st,
         _ => panic!(),

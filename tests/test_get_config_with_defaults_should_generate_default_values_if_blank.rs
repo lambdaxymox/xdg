@@ -18,7 +18,7 @@ fn blank_xdg_config() -> xdg::Config {
 fn test_get_config_or_default_should_generate_default_values_if_blank() {
     let old_config = xdg::get_config();
     let new_config = blank_xdg_config();
-    let result = xdg::get_config_or_default();
+    let result = xdg::get_config_with_defaults();
     let expected = xdg::default_config();
 
     assert_eq!(

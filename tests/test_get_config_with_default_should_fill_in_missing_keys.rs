@@ -16,7 +16,7 @@ fn empty_xdg_config() {
 #[test]
 fn test_get_config_or_default_should_fill_in_missing_keys() {
     empty_xdg_config();
-    let result = xdg::get_config_or_default();
+    let result = xdg::get_config_with_defaults();
     let expected = xdg::default_config();
 
     assert_eq!(

@@ -8,10 +8,10 @@ fn no_xdg_runtime_dir_config() {
 }
 
 #[test]
-fn test_get_config_or_default_should_not_generate_missing_xdg_runtime_dir() {
+fn test_get_config_with_defaults_should_not_generate_missing_xdg_runtime_dir() {
     let old_config = xdg::get_config();
     no_xdg_runtime_dir_config();
-    let new_config = xdg::get_config_or_default();
+    let new_config = xdg::get_config_with_defaults();
     let result = new_config.xdg_runtime_dir.clone();
     let expected = xdg::Value::NotPresent;
 
