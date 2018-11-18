@@ -96,9 +96,6 @@ fn test_get_config_or_default_should_fill_in_missing_keys() {
 #[test]
 fn test_get_config_or_default_should_not_generate_missing_xdg_runtime_dir() {
     let old_config = xdg::get_config();
-    println!("XDG_RUNTIME_DIR={:?}", env::var("XDG_RUNTIME_DIR"));
-    env::remove_var("XDG_RUNTIME_DIR");
-    println!("XDG_RUNTIME_DIR={:?}", env::var("XDG_RUNTIME_DIR"));
     let new_config = no_xdg_runtime_dir_config();
     let config = xdg::get_config_or_default();
     let result = config.xdg_runtime_dir;
