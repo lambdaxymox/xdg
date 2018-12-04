@@ -8,9 +8,5 @@ fn main() {
     let config_with_defaults = xdg::get_config_with_defaults();
     println!("XDG CONFIGURATION USED FOR INSTALLATION:");
     println!("{}", config_with_defaults);
-
-    // Query the XDG environment variables as they are. 
-    let config_without_defaults = xdg::get_config();
-    println!("CURRENT VALUES OF XDG VARIABLES");
-    println!("{}", config_without_defaults);
 }
+
