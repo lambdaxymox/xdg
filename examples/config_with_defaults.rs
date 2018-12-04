@@ -9,4 +9,3 @@ fn main() {
     println!("XDG CONFIGURATION USED FOR INSTALLATION:");
     println!("{}", config_with_defaults);
 }
-
